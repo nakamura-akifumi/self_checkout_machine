@@ -1,0 +1,4 @@
+main:
+  window_title : セルフ貸出機
+  checkout_btn: 貸出
+  checkin_btn: 返却
