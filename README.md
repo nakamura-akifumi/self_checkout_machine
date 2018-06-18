@@ -34,6 +34,7 @@ $ make
 $ make install
 $ pip install pyyaml
 $ pip install pyusb libusb1 pyserial
+$ pip install nfcpy
 ````
 
 ### Raspberry Pi 3 向け
@@ -59,4 +60,4 @@ $ pyuic4 -o main_window.py main_window.ui
 - [Akifumi NAKAMURA](https://github.com/nakamura-akifumi) ([@tmpz84](https://twitter.com/tmpz84))
 
 ## License
-The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
+EUPL 1.1
