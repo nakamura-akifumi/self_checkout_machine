@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'main_window.ui'
+# Form implementation generated from reading ui file 'ui_form/main_window.ui'
 #
 # Created by: PyQt4 UI code generator 4.12.1
 #
@@ -27,11 +27,31 @@ class Ui_main_window(object):
         main_window.setObjectName(_fromUtf8("main_window"))
         main_window.resize(640, 480)
         self.btnCheckout = QtGui.QPushButton(main_window)
-        self.btnCheckout.setGeometry(QtCore.QRect(50, 160, 251, 131))
+        self.btnCheckout.setGeometry(QtCore.QRect(40, 190, 271, 141))
+        font = QtGui.QFont()
+        font.setPointSize(40)
+        self.btnCheckout.setFont(font)
         self.btnCheckout.setObjectName(_fromUtf8("btnCheckout"))
         self.btnCheckin = QtGui.QPushButton(main_window)
-        self.btnCheckin.setGeometry(QtCore.QRect(320, 160, 251, 131))
+        self.btnCheckin.setGeometry(QtCore.QRect(330, 190, 271, 141))
+        font = QtGui.QFont()
+        font.setPointSize(40)
+        self.btnCheckin.setFont(font)
         self.btnCheckin.setObjectName(_fromUtf8("btnCheckin"))
+        self.label = QtGui.QLabel(main_window)
+        self.label.setGeometry(QtCore.QRect(0, 10, 641, 51))
+        font = QtGui.QFont()
+        font.setPointSize(36)
+        self.label.setFont(font)
+        self.label.setAlignment(QtCore.Qt.AlignCenter)
+        self.label.setObjectName(_fromUtf8("label"))
+        self.lblStatus = QtGui.QLabel(main_window)
+        self.lblStatus.setGeometry(QtCore.QRect(0, 80, 641, 71))
+        font = QtGui.QFont()
+        font.setPointSize(28)
+        self.lblStatus.setFont(font)
+        self.lblStatus.setAlignment(QtCore.Qt.AlignCenter)
+        self.lblStatus.setObjectName(_fromUtf8("lblStatus"))
 
         self.retranslateUi(main_window)
         QtCore.QMetaObject.connectSlotsByName(main_window)
@@ -40,4 +60,6 @@ class Ui_main_window(object):
         main_window.setWindowTitle(_translate("main_window", "Form", None))
         self.btnCheckout.setText(_translate("main_window", "貸出", None))
         self.btnCheckin.setText(_translate("main_window", "返却", None))
+        self.label.setText(_translate("main_window", "セルフ貸出返却機", None))
+        self.lblStatus.setText(_translate("main_window", "選んでタッチしてください。", None))
 

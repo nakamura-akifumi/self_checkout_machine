@@ -1,14 +1,13 @@
 # coding: utf-8
 from PyQt4 import QtCore, QtGui
 import sys
-import yaml
-import os
+import json
 from main_window import Ui_main_window
 from checkin_window import Ui_checkin_window
 from checkout_window import Ui_checkout_window
-import binascii
+from felica_walker import *
+import settings
 import nfc
-
 
 
 class MainWindow(QtGui.QMainWindow):
@@ -20,18 +19,25 @@ class MainWindow(QtGui.QMainWindow):
         self.ui.btnCheckout.clicked.connect(self.open_checkout)
         self.checkin_window = self
         self.checkout_window = self
-
-    def other_windows(self, checkin_window, checkout_window):
-        self.checkin_window = checkin_window
-        self.checkout_window = checkout_window
+        self.felica_walker = FelicaWalker()
 
     def open_checkin(self):
         self.checkin_window.show()
 
     def open_checkout(self):
+        self.checkout_window = CheckoutWindow()
+        self.checkout_window.walker.start()
         self.checkout_window.show()
 
-
+    def check_devices(self):
+        #FelicaWalker()
+        try:
+            clf = nfc.ContactlessFrontend('usb')
+            clf.close()
+        except IOError:
+            print "Not find felica device (USB)"
+            self.ui.lblStatus.setStyleSheet("QLabel { background-color : red; color : blue; }")
+            self.ui.lblStatus.setText("リーダーが見つかりません。")
 
 
 class CheckinWindow(QtGui.QMainWindow):
@@ -47,21 +53,40 @@ class CheckoutWindow(QtGui.QMainWindow):
         self.ui = Ui_checkout_window()
         self.ui.setupUi(self)
 
+        self.ui.btnReturn.clicked.connect(self.clicked_btnReturn)
+        self.walker = FelicaWalker()
+        self.walker.sig_status.connect(self.update_status)
+        self.walker.sig_user_profile.connect(self.update_user_profile)
+        self.walker.finished.connect(self.finish_read)
+
+        self.walker.setup()
+        self.walker.start()
+
+    def clicked_btnReturn(self):
+        self.walker.stop()
+        self.close()
+
+    @QtCore.pyqtSlot(str)
+    def update_status(self, tag_idm):
+        self.ui.status_label.setText("tag idm: %s" % tag_idm)
+
+    @QtCore.pyqtSlot(str)
+    def update_user_profile(self, jsonString):
+        s = unicode(jsonString)
+        profile = json.loads(s)
+        self.ui.status_label.setText("%s" % profile['name'])
+
+    @QtCore.pyqtSlot()
+    def finish_read(self):
+        self.walker.wait()
 
 def main():
-    message_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'messages.yaml')
-    with open(message_file) as stream:
-        msg = yaml.load(stream)
-
-    msg = msg['main']
+    settings.init()
 
     app = QtGui.QApplication(sys.argv)
-    w = MainWindow()
-    checkin = CheckinWindow()
-    checkout = CheckoutWindow()
-    w.checkin_window = checkin
-    w.checkout_window = checkout
-    w.show()
+    window = MainWindow()
+    window.show()
+    window.check_devices()
 
     sys.exit(app.exec_())
 

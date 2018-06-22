@@ -11,16 +11,21 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>セルフ貸出機</string>
   </property>
   <widget class="QPushButton" name="btnCheckout">
    <property name="geometry">
     <rect>
-     <x>50</x>
-     <y>160</y>
-     <width>251</width>
-     <height>131</height>
+     <x>40</x>
+     <y>210</y>
+     <width>271</width>
+     <height>141</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>40</pointsize>
+    </font>
    </property>
    <property name="text">
     <string>貸出</string>
@@ -29,14 +34,61 @@
   <widget class="QPushButton" name="btnCheckin">
    <property name="geometry">
     <rect>
-     <x>320</x>
-     <y>160</y>
-     <width>251</width>
-     <height>131</height>
+     <x>330</x>
+     <y>210</y>
+     <width>271</width>
+     <height>141</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>40</pointsize>
+    </font>
    </property>
    <property name="text">
     <string>返却</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>10</y>
+     <width>641</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>36</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>セルフ貸出返却機</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lblStatus">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>90</y>
+     <width>641</width>
+     <height>71</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>28</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>選んでタッチしてください</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
    </property>
   </widget>
  </widget>

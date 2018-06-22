@@ -32,7 +32,7 @@ $ cd
 $ python configure-ng.py
 $ make
 $ make install
-$ pip install pyyaml
+$ pip install pyyaml requests
 $ pip install pyusb libusb1 pyserial
 $ pip install nfcpy
 ````
