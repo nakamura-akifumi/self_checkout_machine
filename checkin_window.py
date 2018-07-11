@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'checkin_window.ui'
+# Form implementation generated from reading ui file 'ui_form/checkin_window.ui'
 #
 # Created by: PyQt4 UI code generator 4.12.1
 #
@@ -42,5 +42,5 @@ class Ui_checkin_window(object):
     def retranslateUi(self, checkin_window):
         checkin_window.setWindowTitle(_translate("checkin_window", "Form", None))
         self.label.setText(_translate("checkin_window", "TextLabel", None))
-        self.label_2.setText(_translate("checkin_window", "TextLabel", None))
+        self.label_2.setText(_translate("checkin_window", "返却", None))
 

@@ -6,13 +6,77 @@
 
 Raspberry Pi に Felicaリーダー、バーコードリーダ、液晶モニタを接続し、セルフ貸出機として利用できるようにするアプリケーションです。
 
-まだ開発中です。
+開発中です。
 
 ### 外観
 
-### 画面    
+- 画像は以下で構成
+    - Raspberry Pi 3
+    - ケース
+    - micro SD カード (16GB以上)
+    - [Sony RC-S380](https://www.sony.co.jp/Products/felica/consumer/products/RC-S380.html)
+    - 公式 7" Touchscreen Display
+    - USB バーコードリーダー
+
+### 画面   
+
+(あとで) 
 
 ## 動作環境の構築
+
+事前にネット上の記事などを参考に構築してください。
+OS のイメージは、Raspbian Stretch (2018-04-18-raspbian-stretch.zip) で確認しています。
+設定もネット上の記事を参考に設定してください。
+注意点として、raspi-config にて Advanced Options -> A7 GL Drive で G1 GL (Full KMS) の設定を忘れずに。
+
+ミドルウェアなどのインストールを行います。
+
+```
+$ sudo apt-get -y update
+$ sudo apt-get -y upgrade
+$ sudo apt-get -y install libfreetype6-dev libfontconfig1-dev
+$ sudo apt-get -y install fcitx-mozc
+$ python -V
+Python 2.7.13
+$ sudo apt-get -y install qt-sdk python-qt4
+$ apt-get remove python-pip
+$ wget https://bootstrap.pypa.io/get-pip.py
+$ sudo python get-pip.py
+$ sudo pip install pyyaml requests
+$ sudo pip install pyusb libusb1 pyserial
+$ sudo pip install nfcpy
+```
+
+利用するFelicaリーダーを登録します。
+以下のようにlsusbコマンドでFelicaリーダーのIDを確認しておきます。
+（例は、ID 054c:06c3 Sony Corp. の箇所で、ベンダーIDは、054c 、プロダクトIDは、06c3 ）
+
+```
+$ lsusb
+Bus 001 Device 008: ID 046d:c534 Logitech, Inc. Unifying Receiver
+Bus 001 Device 007: ID 046d:c534 Logitech, Inc. Unifying Receiver
+Bus 001 Device 005: ID 1a40:0101 Terminus Technology Inc. Hub
+Bus 001 Device 004: ID 248a:ff0f  
+Bus 001 Device 010: ID 054c:06c3 Sony Corp. 
+Bus 001 Device 003: ID 0424:ec00 Standard Microsystems Corp. SMSC9512/9514 Fast Ethernet Adapter
+Bus 001 Device 002: ID 0424:9514 Standard Microsystems Corp. SMC9514 Hub
+Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+```
+
+一般ユーザでもアクセス出来るようにして、再起動する。
+
+```
+$ sudo sh -c 'echo SUBSYSTEM==\"usb\", ACTION==\"add\", ATTRS{idVendor}==\"054c\", ATTRS{idProduct}==\"06c3\", GROUP=\"plugdev\" >> /etc/udev/rules.d/nfcdev.rules'
+$ sudo reboot
+```
+
+本アプリをダウンロードし、起動する。
+
+```
+$ git clone https://github.com/nakamura-akifumi/self_checkout_machine.git
+$ cd self_checkout_machine
+$ python main.py
+```
 
 ## 開発環境の構築
 
@@ -34,7 +98,7 @@ $ make
 $ make install
 $ pip install pyyaml requests
 $ pip install pyusb libusb1 pyserial
-$ pip install nfcpy
+$ pip install nfcpy 
 ````
 
 ### Raspberry Pi 3 向け
@@ -53,7 +117,7 @@ uiファイルからの変換方法
 
 ````
 $ export PYTHONPATH=/anaconda3/envs/self_checkout_machine/lib/python2.7/site-packages
-$ pyuic4 -o main_window.py main_window.ui
+$ pyuic4 -o main_window.py ui_form/main_window.ui
 ````
 
 ##  製作者・貢献者 (Authors and contributors)

@@ -3,6 +3,7 @@ import binascii
 import nfc
 import requests
 import settings
+from enju_adapter import *
 
 
 class FelicaWalker(QtCore.QThread):
@@ -34,16 +35,18 @@ class FelicaWalker(QtCore.QThread):
         self.finished.emit()
 
     def on_connect(self, tag):
-        print "touched"
         tag_idm = binascii.hexlify(tag.idm)
-        print tag_idm
+
+        print("touched: {}".format(tag_idm))
 
         self.sig_status.emit(tag_idm)
 
+
         access_url = settings.app['access_url']
-        response = requests.post(access_url, data={'tag': tag_idm})
-        print response.status_code
-        print response.text
+        cert = ""
+        server_adapter = EnjuAdapter(access_url, cert)
+        print("send tag: {}".format(tag_idm))
+        response = server_adapter.cardid2userid(tag_idm)
 
         self.sig_user_profile.emit(response.text)
 
