@@ -30,6 +30,7 @@ class MainWindow(QtGui.QMainWindow):
         #self.ui.restoreGeometry(settings.value("myWidget/geometry").toByteArray());
 
     def open_checkin(self):
+        self.checkin_window = CheckinWindow()
         self.checkin_window.show()
 
     def open_checkout(self):
@@ -53,6 +54,24 @@ class CheckinWindow(QtGui.QMainWindow):
         self.ui = Ui_checkin_window()
         self.ui.setupUi(self)
 
+        self.ui.btnReturn.clicked.connect(self.clicked_btnReturn)
+        self.ui.btnCheckin.clicked.connect(self.clicked_btnCheckin)
+
+    def clicked_btnReturn(self):
+        self.close()
+
+    def clicked_btnCheckin(self):
+        access_url = settings.app['access_url']
+        cert = settings.app['cert']
+
+        self.ui.status_label.setText("返却処理中です。")
+        item_identifier = self.ui.item_identifier.text()
+        server_adapter = EnjuAdapter(access_url, cert)
+        results = server_adapter.checkin(item_identifier)
+        print "checkin: return"
+        print results
+
+        self.ui.status_label.setText("返却処理を行いました。")
 
 class CheckoutWindow(QtGui.QMainWindow):
     def __init__(self,parent=None):
@@ -67,8 +86,6 @@ class CheckoutWindow(QtGui.QMainWindow):
         self.walker.sig_user_profile.connect(self.update_user_profile)
         self.walker.finished.connect(self.finish_read)
 
-
-
         self.walker.setup()
         self.walker.start()
 
@@ -78,14 +95,18 @@ class CheckoutWindow(QtGui.QMainWindow):
         self.walker.stop()
 
         access_url = settings.app['access_url']
-        cert = ""
+        cert = settings.app['cert']
 
+        self.ui.status_label.setText("貸出処理中です。")
         user_number = self.ui.user_identifer.text()
         item_identifier = self.ui.item_identifier.text()
         server_adapter = EnjuAdapter(access_url, cert)
-        server_adapter.checkout(user_number, item_identifier)
+        results = server_adapter.checkout(user_number, item_identifier)
+        print "checkout: return"
+        print results
 
-
+        self.ui.status_label.setText("貸出処理を行いました。")
+        self.ui.profile_label.setText("")
 
     def clicked_btnReturn(self):
         self.walker.stop()
@@ -101,15 +122,25 @@ class CheckoutWindow(QtGui.QMainWindow):
 
     @QtCore.pyqtSlot(str)
     def update_user_profile(self, jsonString):
+        print "@update_user_profile1"
+        name = ''
+        user_number = ''
         s = unicode(jsonString)
-        profile = json.loads(s)
-        if profile['status'] == '404':
-            self.ui.status_label.setText("利用者情報に登録されていません")
+        results = json.loads(s)
+        print "@update_user_profile2"
+        print results
+        if results['status'] == 400 and len(results['errors']) > 0:
+            error = results[0]
+            if error['status'] == '501':
+                self.ui.status_label.setText("利用者情報に登録されていません")
         else:
+            result = results['results'][0]
             self.ui.status_label.setText("カードを読み取りました")
+            name = unicode(result['name'])
+            user_number = unicode(result['user_number'])
 
-        self.ui.profile_label.setText("%s" % profile['name'])
-        self.ui.user_identifer.setText("%s" % profile['user_number'])
+        self.ui.profile_label.setText("%s" % name)
+        self.ui.user_identifer.setText("%s" % user_number)
         self.ui.item_identifier.setFocus()
 
     @QtCore.pyqtSlot()

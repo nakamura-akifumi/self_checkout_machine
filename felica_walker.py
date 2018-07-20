@@ -1,3 +1,4 @@
+# coding: utf-8
 from PyQt4 import QtCore
 import binascii
 import nfc
@@ -43,7 +44,8 @@ class FelicaWalker(QtCore.QThread):
 
 
         access_url = settings.app['access_url']
-        cert = ""
+        cert = settings.app['cert']
+
         server_adapter = EnjuAdapter(access_url, cert)
         print("send tag: {}".format(tag_idm))
         response = server_adapter.cardid2userid(tag_idm)

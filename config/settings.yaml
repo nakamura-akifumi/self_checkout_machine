@@ -1,2 +1,3 @@
 run_mode: 'enju'
-access_url: 'http://localhost:3000/self_iccards/t'
+access_url: 'http://localhost:8080/self_iccards/t'
+cert: '1234567890test'
