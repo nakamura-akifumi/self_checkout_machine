@@ -7,17 +7,17 @@
     <x>0</x>
     <y>0</y>
     <width>640</width>
-    <height>480</height>
+    <height>503</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>返却</string>
   </property>
   <widget class="QPushButton" name="btnReturn">
    <property name="geometry">
     <rect>
-     <x>510</x>
-     <y>30</y>
+     <x>560</x>
+     <y>50</y>
      <width>81</width>
      <height>51</height>
     </rect>
@@ -26,11 +26,11 @@
     <string>戻る</string>
    </property>
   </widget>
-  <widget class="QLabel" name="status_label_3">
+  <widget class="QLabel" name="title_label">
    <property name="geometry">
     <rect>
      <x>0</x>
-     <y>1</y>
+     <y>10</y>
      <width>641</width>
      <height>40</height>
     </rect>
@@ -51,8 +51,8 @@
    <property name="geometry">
     <rect>
      <x>50</x>
-     <y>120</y>
-     <width>161</width>
+     <y>140</y>
+     <width>101</width>
      <height>41</height>
     </rect>
    </property>
@@ -66,22 +66,30 @@
   <widget class="QPushButton" name="btnCheckin">
    <property name="geometry">
     <rect>
-     <x>500</x>
-     <y>330</y>
-     <width>81</width>
-     <height>51</height>
+     <x>460</x>
+     <y>360</y>
+     <width>151</width>
+     <height>61</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <pointsize>18</pointsize>
+    </font>
+   </property>
+   <property name="focusPolicy">
+    <enum>Qt::StrongFocus</enum>
+   </property>
    <property name="text">
-    <string>返却</string>
+    <string>返却実行</string>
    </property>
   </widget>
   <widget class="QLabel" name="status_label">
    <property name="geometry">
     <rect>
-     <x>150</x>
-     <y>420</y>
-     <width>381</width>
+     <x>0</x>
+     <y>440</y>
+     <width>631</width>
      <height>31</height>
     </rect>
    </property>
@@ -93,18 +101,44 @@
    <property name="text">
     <string>this is status label</string>
    </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
   </widget>
   <widget class="QLineEdit" name="item_identifier">
    <property name="geometry">
     <rect>
-     <x>220</x>
-     <y>120</y>
+     <x>170</x>
+     <y>140</y>
      <width>341</width>
      <height>41</height>
     </rect>
    </property>
   </widget>
+  <widget class="QLabel" name="item_label">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>200</y>
+     <width>561</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>18</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>this is item label</string>
+   </property>
+  </widget>
  </widget>
+ <tabstops>
+  <tabstop>item_identifier</tabstop>
+  <tabstop>btnCheckin</tabstop>
+  <tabstop>btnReturn</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

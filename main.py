@@ -1,7 +1,6 @@
 # coding: utf-8
 from PyQt4 import QtCore, QtGui
 import sys
-import json
 from main_window import Ui_main_window
 from checkin_window import Ui_checkin_window
 from checkout_window import Ui_checkout_window
@@ -22,12 +21,7 @@ class MainWindow(QtGui.QMainWindow):
         self.checkout_window = self
         self.felica_walker = FelicaWalker()
 
-        desktop = QtGui.qApp.desktop()
-        drect = desktop.availableGeometry()
-        print( u'利用可能デスクトップの位置・大きさ : %s' % drect )
-
-        #move(drect.topLeft());
-        #self.ui.restoreGeometry(settings.value("myWidget/geometry").toByteArray());
+        self.center()
 
     def open_checkin(self):
         self.checkin_window = CheckinWindow()
@@ -47,6 +41,26 @@ class MainWindow(QtGui.QMainWindow):
             self.ui.lblStatus.setStyleSheet("QLabel { background-color : red; color : blue; }")
             self.ui.lblStatus.setText("リーダーが見つかりません。")
 
+    def center(self):
+        frameGm = self.frameGeometry()
+        screen = QtGui.QApplication.desktop().screenNumber(QtGui.QApplication.desktop().cursor().pos())
+        centerPoint = QtGui.QApplication.desktop().screenGeometry(screen).center()
+        frameGm.moveCenter(centerPoint)
+        self.move(frameGm.topLeft())
+
+class Filter(QtCore.QObject):
+    def eventFilter(self, widget, event):
+        # FocusOut event
+        if event.type() == QtCore.QEvent.FocusOut:
+            # do custom stuff
+            print 'focus out'
+
+            # return False so that the widget will also handle the event
+            # otherwise it won't focus out
+            return False
+
+        return False
+
 
 class CheckinWindow(QtGui.QMainWindow):
     def __init__(self,parent=None):
@@ -54,11 +68,16 @@ class CheckinWindow(QtGui.QMainWindow):
         self.ui = Ui_checkin_window()
         self.ui.setupUi(self)
 
+        #self._filter = Filter()
+
         self.ui.btnReturn.clicked.connect(self.clicked_btnReturn)
         self.ui.btnCheckin.clicked.connect(self.clicked_btnCheckin)
+        #self.ui.item_identifier.installEventFilter(self._filter)
+        self.ui.status_label.setText("返却物のバーコードを読み込んでください")
+        self.ui.item_label.setText("")
 
     def clicked_btnReturn(self):
-        self.close()
+        self.window().close()
 
     def clicked_btnCheckin(self):
         access_url = settings.app['access_url']
@@ -72,6 +91,7 @@ class CheckinWindow(QtGui.QMainWindow):
         print results
 
         self.ui.status_label.setText("返却処理を行いました。")
+
 
 class CheckoutWindow(QtGui.QMainWindow):
     def __init__(self,parent=None):
@@ -110,11 +130,12 @@ class CheckoutWindow(QtGui.QMainWindow):
 
     def clicked_btnReturn(self):
         self.walker.stop()
-        self.close()
+        self.window().close()
 
     def update_status_init(self):
         self.ui.status_label.setText("カードをかざしてください。")
         self.ui.profile_label.setText("")
+        self.ui.item_label.setText("")
 
     @QtCore.pyqtSlot(str)
     def update_status(self, tag_idm):

@@ -34,3 +34,11 @@ class EnjuAdapter:
         payload = {'event': 'cardid2userid', 'tag': tag_id, 'cert': self.cert}
         r = requests.post(self.server_url, data=payload)
         return r
+
+    def get_item(self, item_identifer):
+        print "item_identifier: identifier={}".format(item_identifer)
+
+        payload = {'event': 'getitem', 'item_identifer': item_identifer, 'cert': self.cert}
+        r = requests.post(self.server_url, data=payload)
+        return r
+

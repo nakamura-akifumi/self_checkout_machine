@@ -36,9 +36,9 @@
   <widget class="QLabel" name="status_label">
    <property name="geometry">
     <rect>
-     <x>70</x>
-     <y>390</y>
-     <width>381</width>
+     <x>0</x>
+     <y>440</y>
+     <width>631</width>
      <height>31</height>
     </rect>
    </property>
@@ -49,6 +49,9 @@
    </property>
    <property name="text">
     <string>this is status label</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
    </property>
   </widget>
   <widget class="QLabel" name="user_name">
@@ -119,7 +122,7 @@
     <string>this is profiles label</string>
    </property>
   </widget>
-  <widget class="QLabel" name="status_label_3">
+  <widget class="QLabel" name="title_label">
    <property name="geometry">
     <rect>
      <x>0</x>
@@ -140,40 +143,43 @@
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QGraphicsView" name="item_image">
-   <property name="geometry">
-    <rect>
-     <x>420</x>
-     <y>260</y>
-     <width>171</width>
-     <height>111</height>
-    </rect>
-   </property>
-  </widget>
   <widget class="QLabel" name="item_label">
    <property name="geometry">
     <rect>
-     <x>90</x>
-     <y>290</y>
-     <width>251</width>
+     <x>50</x>
+     <y>230</y>
+     <width>561</width>
      <height>61</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <pointsize>18</pointsize>
+    </font>
+   </property>
    <property name="text">
-    <string>TextLabel</string>
+    <string>this is item label</string>
    </property>
   </widget>
   <widget class="QPushButton" name="btnCheckout">
    <property name="geometry">
     <rect>
-     <x>300</x>
-     <y>300</y>
-     <width>81</width>
-     <height>51</height>
+     <x>450</x>
+     <y>310</y>
+     <width>151</width>
+     <height>61</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <pointsize>18</pointsize>
+    </font>
+   </property>
+   <property name="focusPolicy">
+    <enum>Qt::StrongFocus</enum>
+   </property>
    <property name="text">
-    <string>貸出</string>
+    <string>貸出実行</string>
    </property>
   </widget>
  </widget>
