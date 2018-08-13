@@ -6,6 +6,11 @@
 
 Raspberry Pi に Felicaリーダー、バーコードリーダ、液晶モニタを接続し、セルフ貸出機として利用できるようにするアプリケーションです。
 
+サーバ側との接続方法は、
+- http(s) 直接接続 （想定アプリ：Next-L Enju 1.3+)
+- slack 経由 (想定アプリ：AssetManager [@tmpz84作成、非公開Railsアプリ])
+となります。
+
 開発中です。
 
 ### 外観
@@ -47,6 +52,10 @@ $ sudo pip install pyusb libusb1 pyserial
 $ sudo pip install nfcpy
 ```
 
+```
+$ sudo pip install slackclient
+```
+
 利用するFelicaリーダーを登録します。
 以下のようにlsusbコマンドでFelicaリーダーのIDを確認しておきます。
 （例は、ID 054c:06c3 Sony Corp. の箇所で、ベンダーIDは、054c 、プロダクトIDは、06c3 ）
@@ -75,8 +84,12 @@ $ sudo reboot
 ```
 $ git clone https://github.com/nakamura-akifumi/self_checkout_machine.git
 $ cd self_checkout_machine
-$ python main.py
+$ ./launch.sh
 ```
+
+## 入出力仕様
+
+(あとで)
 
 ## 開発環境の構築
 
@@ -117,9 +130,9 @@ uiファイルからの変換方法
 
 ````
 $ export PYTHONPATH=/anaconda3/envs/self_checkout_machine/lib/python2.7/site-packages
-$ pyuic4 -o main_window.py ui_form/main_window.ui
-$ pyuic4 -o checkout_window.py ui_form/checkout_window.ui 
-$ pyuic4 -o checkin_window.py ui_form/checkin_window.ui 
+$ pyuic4 -o src/main_window.py ui_form/main_window.ui
+$ pyuic4 -o src/checkout_window.py ui_form/checkout_window.ui 
+$ pyuic4 -o src/checkin_window.py ui_form/checkin_window.ui 
 ````
 
 ##  製作者・貢献者 (Authors and contributors)
