@@ -130,9 +130,9 @@ uiファイルからの変換方法
 
 ````
 $ export PYTHONPATH=/anaconda3/envs/self_checkout_machine/lib/python2.7/site-packages
-$ pyuic4 -o src/main_window.py ui_form/main_window.ui
-$ pyuic4 -o src/checkout_window.py ui_form/checkout_window.ui 
-$ pyuic4 -o src/checkin_window.py ui_form/checkin_window.ui 
+$ pyuic4 -o src/ui_main_window.py ui_form/main_window.ui
+$ pyuic4 -o src/ui_checkout_window.py ui_form/checkout_window.ui 
+$ pyuic4 -o src/ui_checkin_window.py ui_form/checkin_window.ui 
 ````
 
 ##  製作者・貢献者 (Authors and contributors)

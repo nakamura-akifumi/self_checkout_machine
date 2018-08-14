@@ -6,34 +6,47 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>640</width>
-    <height>503</height>
+    <width>800</width>
+    <height>480</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>返却</string>
   </property>
-  <widget class="QPushButton" name="btnReturn">
+  <widget class="QPushButton" name="btnCancel">
    <property name="geometry">
     <rect>
-     <x>560</x>
-     <y>50</y>
-     <width>81</width>
-     <height>51</height>
+     <x>704</x>
+     <y>0</y>
+     <width>90</width>
+     <height>60</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <pointsize>14</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
    <property name="text">
-    <string>戻る</string>
+    <string>キャンセル</string>
    </property>
   </widget>
-  <widget class="QLabel" name="title_label">
+  <widget class="QLabel" name="lblTitle">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>10</y>
-     <width>641</width>
+     <width>800</width>
      <height>40</height>
     </rect>
+   </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
    </property>
    <property name="font">
     <font>
@@ -50,11 +63,16 @@
   <widget class="QLabel" name="user_name_2">
    <property name="geometry">
     <rect>
-     <x>50</x>
-     <y>140</y>
-     <width>101</width>
+     <x>70</x>
+     <y>120</y>
+     <width>80</width>
      <height>41</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>18</pointsize>
+    </font>
    </property>
    <property name="text">
     <string>所蔵ID</string>
@@ -63,43 +81,51 @@
     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
    </property>
   </widget>
-  <widget class="QPushButton" name="btnCheckin">
+  <widget class="QPushButton" name="btnOk">
    <property name="geometry">
     <rect>
-     <x>460</x>
-     <y>360</y>
-     <width>151</width>
-     <height>61</height>
+     <x>260</x>
+     <y>410</y>
+     <width>280</width>
+     <height>60</height>
     </rect>
    </property>
    <property name="font">
     <font>
-     <pointsize>18</pointsize>
+     <pointsize>21</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
     </font>
    </property>
    <property name="focusPolicy">
     <enum>Qt::StrongFocus</enum>
    </property>
    <property name="text">
-    <string>返却実行</string>
+    <string>返却する</string>
    </property>
   </widget>
   <widget class="QLabel" name="status_label">
    <property name="geometry">
     <rect>
-     <x>0</x>
-     <y>440</y>
-     <width>631</width>
-     <height>31</height>
+     <x>10</x>
+     <y>60</y>
+     <width>780</width>
+     <height>40</height>
     </rect>
    </property>
    <property name="font">
     <font>
-     <pointsize>18</pointsize>
+     <pointsize>22</pointsize>
     </font>
    </property>
+   <property name="frameShape">
+    <enum>QFrame::Box</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Sunken</enum>
+   </property>
    <property name="text">
-    <string>this is status label</string>
+    <string>１２３４５６７８９０１２３４５６７８９０１２３４５６７８９０１２３４５６７８９０</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
@@ -109,7 +135,7 @@
    <property name="geometry">
     <rect>
      <x>170</x>
-     <y>140</y>
+     <y>120</y>
      <width>341</width>
      <height>41</height>
     </rect>
@@ -118,10 +144,10 @@
   <widget class="QLabel" name="item_label">
    <property name="geometry">
     <rect>
-     <x>50</x>
-     <y>200</y>
-     <width>561</width>
-     <height>61</height>
+     <x>530</x>
+     <y>122</y>
+     <width>260</width>
+     <height>40</height>
     </rect>
    </property>
    <property name="font">
@@ -129,15 +155,44 @@
      <pointsize>18</pointsize>
     </font>
    </property>
+   <property name="frameShape">
+    <enum>QFrame::Box</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Sunken</enum>
+   </property>
    <property name="text">
     <string>this is item label</string>
    </property>
   </widget>
+  <widget class="QTableView" name="tableView">
+   <property name="geometry">
+    <rect>
+     <x>60</x>
+     <y>180</y>
+     <width>701</width>
+     <height>161</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>16</pointsize>
+    </font>
+   </property>
+  </widget>
+  <zorder>lblTitle</zorder>
+  <zorder>btnCancel</zorder>
+  <zorder>user_name_2</zorder>
+  <zorder>btnOk</zorder>
+  <zorder>status_label</zorder>
+  <zorder>item_identifier</zorder>
+  <zorder>item_label</zorder>
+  <zorder>tableView</zorder>
  </widget>
  <tabstops>
   <tabstop>item_identifier</tabstop>
-  <tabstop>btnCheckin</tabstop>
-  <tabstop>btnReturn</tabstop>
+  <tabstop>btnOk</tabstop>
+  <tabstop>btnCancel</tabstop>
  </tabstops>
  <resources/>
  <connections/>

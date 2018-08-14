@@ -2,9 +2,14 @@
 #                slack (via slack)
 run_mode: 'api'
 api:
-  access_url: 'http://localhost:8080/self_iccards/t'
+  access_url: 'http://localhost:8080/id_cards/t'
   cert: '1234567890test'
 slack:
   token: "xoxb-00000000000-XXXXXXXXXXXXXXXXXXXXXXXX" # Your API token
   channel: '#databus_dev'
   machinename: 'rp1'
+style:
+  # color_reference: http://www.htmq.com/color/colorname.shtml
+  title_bar: "background-color : green; color : white;"
+  ok_button: "background-color : mediumblue; color : white;"
+  cancel_button: "background-color : lightseagreen; color : white;"

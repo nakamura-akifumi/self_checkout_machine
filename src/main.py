@@ -1,13 +1,14 @@
 # coding: utf-8
-from PyQt4 import QtCore, QtGui
+from PyQt4 import QtGui
 import sys
-from main_window import Ui_main_window
+from ui_main_window import Ui_main_window
 from checkin_window import Ui_checkin_window
 from checkout_window import Ui_checkout_window
 from felica_walker import *
 from enju_adapter import *
 import settings
 import nfc
+from mylogger import get_logger
 
 
 class MainWindow(QtGui.QMainWindow):
@@ -21,7 +22,21 @@ class MainWindow(QtGui.QMainWindow):
         self.checkout_window = self
         self.felica_walker = FelicaWalker()
 
+        style_prop_title_bar = settings.app['style']['title_bar']
+        style_prop_ok_button = settings.app['style']['ok_button']
+
+        self.ui.lblTitle.setStyleSheet("QLabel { " + style_prop_title_bar + " }")
+        self.ui.btnCheckin.setStyleSheet("QPushButton { " + style_prop_ok_button + " }")
+        self.ui.btnCheckout.setStyleSheet("QPushButton { " + style_prop_ok_button + " }")
+
         self.center()
+
+    def center(self):
+        frameGm = self.frameGeometry()
+        screen = QtGui.QApplication.desktop().screenNumber(QtGui.QApplication.desktop().cursor().pos())
+        centerPoint = QtGui.QApplication.desktop().screenGeometry(screen).center()
+        frameGm.moveCenter(centerPoint)
+        self.move(frameGm.topLeft())
 
     def open_checkin(self):
         self.checkin_window = CheckinWindow()
@@ -37,16 +52,10 @@ class MainWindow(QtGui.QMainWindow):
             clf = nfc.ContactlessFrontend('usb')
             clf.close()
         except IOError:
-            print "Not find felica device (USB)"
+            logger.warn("Not find felica device (USB)")
             self.ui.lblStatus.setStyleSheet("QLabel { background-color : red; color : blue; }")
-            self.ui.lblStatus.setText("リーダーが見つかりません。")
+            self.ui.lblStatus.setText("IDカードリーダーが見つかりません。")
 
-    def center(self):
-        frameGm = self.frameGeometry()
-        screen = QtGui.QApplication.desktop().screenNumber(QtGui.QApplication.desktop().cursor().pos())
-        centerPoint = QtGui.QApplication.desktop().screenGeometry(screen).center()
-        frameGm.moveCenter(centerPoint)
-        self.move(frameGm.topLeft())
 
 class Filter(QtCore.QObject):
     def eventFilter(self, widget, event):
@@ -70,16 +79,34 @@ class CheckinWindow(QtGui.QMainWindow):
 
         #self._filter = Filter()
 
-        self.ui.btnReturn.clicked.connect(self.clicked_btnReturn)
-        self.ui.btnCheckin.clicked.connect(self.clicked_btnCheckin)
+        self.ui.btnCancel.clicked.connect(self.clicked_btnCancel)
+        self.ui.btnOk.clicked.connect(self.clicked_btnOk)
         #self.ui.item_identifier.installEventFilter(self._filter)
         self.ui.status_label.setText("返却物のバーコードを読み込んでください")
         self.ui.item_label.setText("")
 
-    def clicked_btnReturn(self):
+        style_prop_title_bar = settings.app['style']['title_bar']
+        style_prop_ok_button = settings.app['style']['ok_button']
+        style_prop_cancel_button = settings.app['style']['cancel_button']
+
+        self.ui.lblTitle.setStyleSheet("QLabel { " + style_prop_title_bar + " }")
+        self.ui.btnOk.setStyleSheet("QPushButton { " + style_prop_ok_button + " }")
+        self.ui.btnCancel.setStyleSheet("QPushButton { " + style_prop_cancel_button + " }")
+
+
+        self.center
+
+    def center(self):
+        frameGm = self.frameGeometry()
+        screen = QtGui.QApplication.desktop().screenNumber(QtGui.QApplication.desktop().cursor().pos())
+        centerPoint = QtGui.QApplication.desktop().screenGeometry(screen).center()
+        frameGm.moveCenter(centerPoint)
+        self.move(frameGm.topLeft())
+
+    def clicked_btnCancel(self):
         self.window().close()
 
-    def clicked_btnCheckin(self):
+    def clicked_btnOk(self):
         access_url = settings.app['access_url']
         cert = settings.app['cert']
 
@@ -87,7 +114,7 @@ class CheckinWindow(QtGui.QMainWindow):
         item_identifier = self.ui.item_identifier.text()
         server_adapter = EnjuAdapter(access_url, cert)
         results = server_adapter.checkin(item_identifier)
-        print "checkin: return"
+        logger.debug("checkin: return")
         print results
 
         self.ui.status_label.setText("返却処理を行いました。")
@@ -99,8 +126,16 @@ class CheckoutWindow(QtGui.QMainWindow):
         self.ui = Ui_checkout_window()
         self.ui.setupUi(self)
 
-        self.ui.btnReturn.clicked.connect(self.clicked_btnReturn)
-        self.ui.btnCheckout.clicked.connect(self.clicked_btnCheckout)
+        style_prop_title_bar = settings.app['style']['title_bar']
+        style_prop_ok_button = settings.app['style']['ok_button']
+        style_prop_cancel_button = settings.app['style']['cancel_button']
+
+        self.ui.lblTitle.setStyleSheet("QLabel { " + style_prop_title_bar + " }")
+        self.ui.btnOK.setStyleSheet("QPushButton { " + style_prop_ok_button + " }")
+        self.ui.btnCancel.setStyleSheet("QPushButton { " + style_prop_cancel_button + " }")
+
+        self.ui.btnCancel.clicked.connect(self.clicked_btnCancel)
+        self.ui.btnOK.clicked.connect(self.clicked_btnOk)
         self.walker = FelicaWalker()
         self.walker.sig_status.connect(self.update_status)
         self.walker.sig_user_profile.connect(self.update_user_profile)
@@ -111,7 +146,16 @@ class CheckoutWindow(QtGui.QMainWindow):
 
         self.update_status_init()
 
-    def clicked_btnCheckout(self):
+        self.center
+
+    def center(self):
+        frameGm = self.frameGeometry()
+        screen = QtGui.QApplication.desktop().screenNumber(QtGui.QApplication.desktop().cursor().pos())
+        centerPoint = QtGui.QApplication.desktop().screenGeometry(screen).center()
+        frameGm.moveCenter(centerPoint)
+        self.move(frameGm.topLeft())
+
+    def clicked_btnOk(self):
         self.walker.stop()
 
         access_url = settings.app['access_url']
@@ -122,18 +166,20 @@ class CheckoutWindow(QtGui.QMainWindow):
         item_identifier = self.ui.item_identifier.text()
         server_adapter = EnjuAdapter(access_url, cert)
         results = server_adapter.checkout(user_number, item_identifier)
-        print "checkout: return"
+        logger.debug("checkout: return")
         print results
 
         self.ui.status_label.setText("貸出処理を行いました。")
         self.ui.profile_label.setText("")
 
-    def clicked_btnReturn(self):
+    def clicked_btnCancel(self):
+        logger.debug("@1 clicked_btnReturn ")
         self.walker.stop()
+        logger.debug("@3 clicked_btnReturn ")
         self.window().close()
 
     def update_status_init(self):
-        self.ui.status_label.setText("カードをかざしてください。")
+        self.ui.status_label.setText("IDカード(利用者カード)をかざしてください。")
         self.ui.profile_label.setText("")
         self.ui.item_label.setText("")
 
@@ -143,13 +189,18 @@ class CheckoutWindow(QtGui.QMainWindow):
 
     @QtCore.pyqtSlot(str)
     def update_user_profile(self, jsonString):
-        print "@update_user_profile1"
         name = ''
         user_number = ''
-        s = unicode(jsonString)
-        results = json.loads(s)
-        print "@update_user_profile2"
-        print results
+        try:
+            s = unicode(jsonString)
+            results = json.loads(s)
+        except ValueError as e:
+            logger.error("args:{0}".format(e.args))
+            logger.error("message:{0}".format(e.message))
+            logger.error("{0}".format(e))
+            self.ui.status_label.setText("サーバからの応答情報にエラーがありました。({})".format(e.args))
+            return
+
         if results['status'] == 400 and len(results['errors']) > 0:
             error = results[0]
             if error['status'] == '501':
@@ -168,8 +219,13 @@ class CheckoutWindow(QtGui.QMainWindow):
     def finish_read(self):
         self.walker.wait()
 
+
 def main():
+    logger = get_logger(__name__)
+    logger.debug("start self_checkout_machine")
+
     settings.init()
+    #print settings.app
 
     app = QtGui.QApplication(sys.argv)
     window = MainWindow()
@@ -177,7 +233,6 @@ def main():
     window.check_devices()
 
     sys.exit(app.exec_())
-
 
 if __name__ == '__main__':
     main()
