@@ -11,6 +11,7 @@ class CheckoutWindow(QtGui.QMainWindow):
         self.ui = Ui_checkout_window()
         self.ui.setupUi(self)
 
+        self.model = None
         self.basket_id = None
         self.session_value = None
         self.table_data = []
@@ -23,7 +24,9 @@ class CheckoutWindow(QtGui.QMainWindow):
         self.ui.btnOK.setStyleSheet("QPushButton { " + style_prop_ok_button + " }")
         self.ui.btnCancel.setStyleSheet("QPushButton { " + style_prop_cancel_button + " }")
 
-        table = self.createTable()
+        headers = ['書名', '所蔵情報ID', '返却期限']
+        self.model = MyTableModel(self.table_data, headers, self)
+        self.createTable()
 
         self.ui.item_identifier.returnPressed.connect(self.enterkey_item_identifier)
         self.ui.btnCancel.clicked.connect(self.clicked_btnCancel)
@@ -51,9 +54,7 @@ class CheckoutWindow(QtGui.QMainWindow):
         tv = self.ui.tableView
 
         # set the table model
-        header = ['書名', '所蔵情報ID', '返却期限']
-        tm = MyTableModel(self.table_data, header, self)
-        tv.setModel(tm)
+        tv.setModel(self.model)
 
         # hide grid
         tv.setShowGrid(False)
@@ -103,8 +104,15 @@ class CheckoutWindow(QtGui.QMainWindow):
 
             if results['status'] != '200' and results.has_key('errors'):
                 x = results['errors'][0]
-                if x['status'] == 523: # invalid item
+
+                if x['status'] == 523:  # invalid item
                     self.ui.status_label.setText("読み込んだ番号は不正です。正しい番号か確認ください")
+                    self.ui.item_identifier.setText('')
+                elif x['status'] == 422:
+                    msg = x['message']
+                    logger.info("xxx")
+                    logger.info(msg)
+                    self.ui.status_label.setText(msg)
                     self.ui.item_identifier.setText('')
                 else:
                     self.ui.status_label.setText("エラーが発生しました。コード={} 番号={}".format(x['status'], item_identifier))
@@ -123,6 +131,10 @@ class CheckoutWindow(QtGui.QMainWindow):
                     self.ui.tableView.model().endInsertRows()
 
                     logger.debug("append success")
+                else:
+                    self.ui.status_label.setText("{}".format(data1['msg']))
+                    self.ui.item_identifier.setText('')
+
         else:
             logger.debug("run mode is [slack]")
 
@@ -144,7 +156,8 @@ class CheckoutWindow(QtGui.QMainWindow):
                 self.ui.status_label.setText("サーバ側でエラーが発生しました。(500)")
                 return
 
-            #
+            self.model.removeRows(0, len(self.table_data))
+
             self.table_data = []
             self.basket_id = None
             self.session_value = None
@@ -276,4 +289,12 @@ class MyTableModel(QtCore.QAbstractTableModel):
         if orientation == QtCore.Qt.Horizontal and role == QtCore.Qt.DisplayRole:
             return QtCore.QVariant(self.headerdata[col])
         return QtCore.QVariant()
+
+    def removeRows(self, position, rows, parent = QtCore.QModelIndex):
+        self.beginRemoveRows(QtCore.QModelIndex(), position, position + rows - 1)
+        for i in range(rows):
+            value = self.arraydata[position]
+            self.arraydata.remove(value)
+
+        self.endRemoveRows()
 
