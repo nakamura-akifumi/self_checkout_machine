@@ -20,15 +20,37 @@ class EnjuAdapter:
         r = requests.post(self.server_url, data=payload)
         return r
 
-    def checkout(self, user_number, item_identifier):
-        logger.debug("checkout: user_number={} item_identifier={}".format(user_number, item_identifier))
-
-        payload = {'event': 'checkout',
-                   'user_number': unicode(user_number),
+    def add_checkout_item(self, session_value, basket_id, item_identifier):
+        logger.debug("add_checkout_item: basket_id={} item_identifier={}".format(basket_id, item_identifier))
+        logger.debug("add_checkout_item: session_value={}".format(session_value))
+        payload = {'event': 'add_checkout_item',
+                   'basket_id': unicode(basket_id),
                    'item_identifier': unicode(item_identifier),
+                   'session_value': unicode(session_value),
                    'cert': self.cert}
         r = requests.post(self.server_url, data=payload)
         return r
+
+    def checkout(self, session_value, basket_id):
+        logger.debug("checkout: basket_id={} session_value={}".format(basket_id, session_value))
+
+        payload = {'event': 'checkout',
+                   'basket_id': unicode(basket_id),
+                   'session_value': unicode(session_value),
+                   'cert': self.cert}
+        r = requests.post(self.server_url, data=payload)
+        return r
+
+    def cardid2user_with_basket(self, tag_id):
+        logger.debug("cardid2user_with_basket: cardid2user_with_basket={}".format(tag_id))
+
+        payload = {'event': 'cardid2userbascket', 'tag': unicode(tag_id), 'cert': self.cert}
+        r = requests.post(self.server_url, data=payload)
+        print r
+        print r.text
+        # TODO: r.status_code == 500 -> throw exception
+        return r
+
 
     def cardid2userid(self, tag_id):
         logger.debug("cardid2userid: cardid2userid={}".format(tag_id))

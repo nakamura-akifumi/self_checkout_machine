@@ -8,9 +8,9 @@ import settings
 
 logger = getLogger(__name__)
 
+
 class FelicaWalker(QtCore.QThread):
-    sig_status = QtCore.pyqtSignal(str)
-    sig_user_profile = QtCore.pyqtSignal(str)
+    sig_fetch_cardid = QtCore.pyqtSignal(str)
 
     def __init__(self, parent=None):
         super(FelicaWalker, self).__init__(parent)
@@ -58,19 +58,7 @@ class FelicaWalker(QtCore.QThread):
 
         logger.debug("touched: {}".format(tag_idm))
 
-        self.sig_status.emit(tag_idm)
-
-        if settings.app['run_mode'] == 'api':
-            access_url = settings.app['api']['access_url']
-            cert = settings.app['api']['cert']
-
-            server_adapter = EnjuAdapter(access_url, cert)
-            logger.debug("send tag: {}".format(tag_idm))
-            response = server_adapter.cardid2userid(tag_idm)
-        else:
-            logger.debug("run mode is [slack]")
-
-        self.sig_user_profile.emit(response.text)
+        self.sig_fetch_cardid.emit(tag_idm)
 
         return True
 
