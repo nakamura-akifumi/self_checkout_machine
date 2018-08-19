@@ -41,7 +41,7 @@ OS のイメージは、Raspbian Stretch (2018-04-18-raspbian-stretch.zip) で�
 $ sudo apt-get -y update
 $ sudo apt-get -y upgrade
 $ sudo apt-get -y install libfreetype6-dev libfontconfig1-dev
-$ sudo apt-get -y install fcitx-mozc
+$ sudo apt-get -y install fonts-takao
 $ python -V
 Python 2.7.13
 $ sudo apt-get -y install qt-sdk python-qt4
@@ -114,6 +114,10 @@ $ pip install pyyaml requests
 $ pip install pyusb libusb1 pyserial
 $ pip install nfcpy 
 ````
+
+https://launchpad.net/takao-fonts
+からフォント(TakaoFonts-00303.01.zip)をダウンロードする。
+https://ipafont.ipa.go.jp/node72 を参考にインストールする。
 
 ### Raspberry Pi 3 向け
 
