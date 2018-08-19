@@ -15,7 +15,7 @@ def main():
 
     app = QtGui.QApplication(sys.argv)
     window = main_window.MainWindow()
-    window.show()
+    window.goodShow()
     window.check_devices()
 
     sys.exit(app.exec_())

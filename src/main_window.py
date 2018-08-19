@@ -35,14 +35,23 @@ class MainWindow(QtGui.QMainWindow):
         frameGm.moveCenter(centerPoint)
         self.move(frameGm.topLeft())
 
+    def goodShow(self):
+        screen = QtGui.QApplication.desktop().screenNumber(QtGui.QApplication.desktop().cursor().pos())
+        brp = QtGui.QApplication.desktop().screenGeometry(screen).bottomRight()
+        if brp.x() == (800-1) and brp.y() == (480-1):
+            # for raspberry-pi 7inch touch-screen
+            self.showFullScreen()
+        else:
+            self.show()
+
     def open_checkin(self):
         self.checkin_window = checkin_window.CheckinWindow()
-        self.checkin_window.show()
+        self.checkin_window.goodShow()
 
     def open_checkout(self):
         self.checkout_window = checkout_window.CheckoutWindow()
         self.checkout_window.walker.start()
-        self.checkout_window.show()
+        self.checkout_window.goodShow()
 
     def check_devices(self):
         try:

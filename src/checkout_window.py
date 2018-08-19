@@ -49,6 +49,15 @@ class CheckoutWindow(QtGui.QMainWindow):
         frameGm.moveCenter(centerPoint)
         self.move(frameGm.topLeft())
 
+    def goodShow(self):
+        screen = QtGui.QApplication.desktop().screenNumber(QtGui.QApplication.desktop().cursor().pos())
+        brp = QtGui.QApplication.desktop().screenGeometry(screen).bottomRight()
+        if brp.x() == (800-1) and brp.y() == (480-1):
+            # for raspberry-pi 7inch touch-screen
+            self.showFullScreen()
+        else:
+            self.show()
+
     def createTable(self):
         # create the view
         tv = self.ui.tableView

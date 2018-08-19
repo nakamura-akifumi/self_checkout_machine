@@ -36,6 +36,15 @@ class CheckinWindow(QtGui.QMainWindow):
         frameGm.moveCenter(centerPoint)
         self.move(frameGm.topLeft())
 
+    def goodShow(self):
+        screen = QtGui.QApplication.desktop().screenNumber(QtGui.QApplication.desktop().cursor().pos())
+        brp = QtGui.QApplication.desktop().screenGeometry(screen).bottomRight()
+        if brp.x() == (800-1) and brp.y() == (480-1):
+            # for raspberry-pi 7inch touch-screen
+            self.showFullScreen()
+        else:
+            self.show()
+
     def enterkey_item_identifier(self):
         item_identifier = self.ui.item_identifier.text()
         logger.debug("enterkey pressed : @@1 id={}".format(item_identifier))
