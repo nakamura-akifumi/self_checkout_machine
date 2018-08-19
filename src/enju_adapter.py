@@ -9,7 +9,7 @@ class EnjuAdapter:
     def __init__(self, server_url, cert):
         self.server_url = server_url
         self.cert = cert
-        self.request_timeout = 10
+        self.request_timeout = 5
 
     def checkin(self, item_identifier):
         logger.debug("checkin: item_identifier={}".format(item_identifier))

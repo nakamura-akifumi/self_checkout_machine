@@ -39,7 +39,7 @@ class Ui_main_window(object):
         self.btnCheckin.setFont(font)
         self.btnCheckin.setObjectName(_fromUtf8("btnCheckin"))
         self.lblTitle = QtGui.QLabel(main_window)
-        self.lblTitle.setGeometry(QtCore.QRect(0, 10, 800, 40))
+        self.lblTitle.setGeometry(QtCore.QRect(0, 0, 800, 48))
         font = QtGui.QFont()
         font.setPointSize(36)
         self.lblTitle.setFont(font)

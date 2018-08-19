@@ -32,7 +32,8 @@ Raspberry Pi に Felicaリーダー、バーコードリーダ、液晶モニタ
 事前にネット上の記事などを参考に構築してください。
 OS のイメージは、Raspbian Stretch (2018-04-18-raspbian-stretch.zip) で確認しています。
 設定もネット上の記事を参考に設定してください。
-注意点として、raspi-config にて Advanced Options -> A7 GL Drive で G1 GL (Full KMS) の設定を忘れずに。
+注意点として、raspi-config にて Advanced Options -> A7 GL Drive で G1 GL (Full KMS) の設定すると、
+公式７インチタッチディスプレイでの表示ができません。(2018/8/19現在)
 
 ミドルウェアなどのインストールを行います。
 
