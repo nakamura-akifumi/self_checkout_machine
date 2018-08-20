@@ -2,6 +2,7 @@
 from PyQt4 import QtGui
 from ui_checkin_window import Ui_checkin_window
 from felica_walker import *
+import json
 import settings
 
 try:

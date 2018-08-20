@@ -3,6 +3,7 @@ from PyQt4 import QtGui, QtCore
 from ui_checkout_window import Ui_checkout_window
 from felica_walker import *
 from enju_adapter import *
+import json
 
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
