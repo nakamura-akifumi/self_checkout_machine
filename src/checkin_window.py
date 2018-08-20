@@ -67,7 +67,7 @@ class CheckinWindow(QtGui.QMainWindow):
         self.checkin_item(item_identifier)
 
     def checkin_item(self, item_identifier):
-        self.ui.status_label.setText("返却処理中です。")
+        self.ui.status_label.setText(_fromUtf8("返却処理中です。"))
 
         if settings.app['run_mode'] == 'api':
             access_url = settings.app['api']['access_url']
@@ -87,20 +87,20 @@ class CheckinWindow(QtGui.QMainWindow):
                 logger.error("args:{0}".format(e.args))
                 logger.error("message:{0}".format(e.message))
                 logger.error("{0}".format(e))
-                self.ui.status_label.setText("サーバからの応答情報にエラーがありました。({})".format(e.args))
+                self.ui.status_label.setText(_fromUtf8("サーバからの応答情報にエラーがありました。({})".format(e.args)))
                 return
 
             if results['status'] != '200' and results.has_key('errors'):
                 x = results['errors'][0]
                 if x['status'] == 623: # invalid item
-                    self.ui.status_label.setText("読み込んだ番号は不正です。正しい番号か確認ください")
+                    self.ui.status_label.setText(_fromUtf8("読み込んだ番号は不正です。正しい番号か確認ください"))
                     self.ui.item_identifier.setText('')
                 else:
-                    self.ui.status_label.setText("エラーが発生しました。コード={} 番号={}".format(x['status'], item_identifier))
+                    self.ui.status_label.setText(_fromUtf8("エラーが発生しました。コード={} 番号={}".format(x['status'], item_identifier)))
                     self.ui.item_identifier.setText('')
 
             else:
-                self.ui.status_label.setText("返却処理を行いました。")
+                self.ui.status_label.setText(_fromUtf8("返却処理を行いました。"))
                 self.ui.item_identifier.setText('')
 
         else:
