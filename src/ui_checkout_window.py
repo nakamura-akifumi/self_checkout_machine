@@ -57,7 +57,7 @@ class Ui_checkout_window(object):
         self.status_label.setAlignment(QtCore.Qt.AlignCenter)
         self.status_label.setObjectName(_fromUtf8("status_label"))
         self.user_name = QtGui.QLabel(checkout_window)
-        self.user_name.setGeometry(QtCore.QRect(59, 120, 91, 41))
+        self.user_name.setGeometry(QtCore.QRect(49, 120, 101, 41))
         font = QtGui.QFont()
         font.setFamily(_fromUtf8("TakaoGothic"))
         font.setPointSize(18)
