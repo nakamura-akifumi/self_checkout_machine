@@ -1,5 +1,5 @@
 # coding: utf-8
-from PyQt4 import QtGui
+from PyQt4 import QtGui, QtCore
 from ui_main_window import Ui_main_window
 import checkout_window
 import checkin_window
@@ -60,4 +60,4 @@ class MainWindow(QtGui.QMainWindow):
         except IOError:
             logger.warn("Not find felica device (USB)")
             self.ui.lblStatus.setStyleSheet("QLabel { background-color : red; color : blue; }")
-            self.ui.lblStatus.setText("IDカードリーダーが見つかりません。")
+            self.ui.lblStatus.setText(QtCore.QString("IDカードリーダーが見つかりません。"))
