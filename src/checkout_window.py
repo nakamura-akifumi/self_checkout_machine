@@ -4,6 +4,11 @@ from ui_checkout_window import Ui_checkout_window
 from felica_walker import *
 from enju_adapter import *
 
+try:
+    _fromUtf8 = QtCore.QString.fromUtf8
+except AttributeError:
+    def _fromUtf8(s):
+        return s
 
 class CheckoutWindow(QtGui.QMainWindow):
     def __init__(self, parent=None):
@@ -108,23 +113,21 @@ class CheckoutWindow(QtGui.QMainWindow):
                 logger.error("args:{0}".format(e.args))
                 logger.error("message:{0}".format(e.message))
                 logger.error("{0}".format(e))
-                self.ui.status_label.setText("サーバからの応答情報にエラーがありました。({})".format(e.args))
+                self.ui.status_label.setText(_fromUtf8("サーバからの応答情報にエラーがありました。({})".format(e.args)))
                 return
 
             if results['status'] != '200' and results.has_key('errors'):
                 x = results['errors'][0]
 
                 if x['status'] == 523:  # invalid item
-                    self.ui.status_label.setText("読み込んだ番号は不正です。正しい番号か確認ください")
+                    self.ui.status_label.setText(_fromUtf8("読み込んだ番号は不正です。正しい番号か確認ください"))
                     self.ui.item_identifier.setText('')
                 elif x['status'] == 422:
                     msg = x['message']
-                    logger.info("xxx")
-                    logger.info(msg)
                     self.ui.status_label.setText(msg)
                     self.ui.item_identifier.setText('')
                 else:
-                    self.ui.status_label.setText("エラーが発生しました。コード={} 番号={}".format(x['status'], item_identifier))
+                    self.ui.status_label.setText(_fromUtf8("エラーが発生しました。コード={} 番号={}".format(x['status'], item_identifier)))
                     self.ui.item_identifier.setText('')
 
             else:
@@ -157,12 +160,12 @@ class CheckoutWindow(QtGui.QMainWindow):
             access_url = settings.app['api']['access_url']
             cert = settings.app['api']['cert']
 
-            self.ui.status_label.setText("貸出処理中です。")
+            self.ui.status_label.setText(_fromUtf8("貸出処理中です。"))
             server_adapter = EnjuAdapter(access_url, cert)
             results = server_adapter.checkout(self.session_value, self.basket_id)
 
             if results.status_code == 500:
-                self.ui.status_label.setText("サーバ側でエラーが発生しました。(500)")
+                self.ui.status_label.setText(_fromUtf8("サーバ側でエラーが発生しました。(500)"))
                 return
 
             self.model.removeRows(0, len(self.table_data))
@@ -176,7 +179,7 @@ class CheckoutWindow(QtGui.QMainWindow):
         else:
             logger.debug("run mode is [slack]")
 
-        self.ui.status_label.setText("貸出処理を行いました。")
+        self.ui.status_label.setText(_fromUtf8("貸出処理を行いました。"))
         self.ui.profile_label.setText("")
 
     def clicked_btnCancel(self):
@@ -186,7 +189,7 @@ class CheckoutWindow(QtGui.QMainWindow):
         self.window().close()
 
     def update_status_init(self):
-        self.ui.status_label.setText("IDカード(利用者カード)をかざしてください。")
+        self.ui.status_label.setText(_fromUtf8("IDカード(利用者カード)をかざしてください。"))
         self.ui.profile_label.setText("")
         self.ui.item_label.setText("")
         self.basket_id = None
@@ -198,14 +201,14 @@ class CheckoutWindow(QtGui.QMainWindow):
         logger.debug("fetch_cardid tag={}".format(tag_idm))
         self.ui.status_label.setText("tag idm: %s" % tag_idm)
 
-        progress = QtGui.QProgressDialog("カード情報照会中", 'Cancel', 0, 100)
+        progress = QtGui.QProgressDialog(_fromUtf8("カード情報照会中"), 'Cancel', 0, 100)
         progress.setWindowModality(QtCore.Qt.WindowModal)
         progress.setAutoReset(True)
         progress.setAutoClose(True)
         progress.setMinimum(0)
         progress.setMaximum(100)
         progress.resize(200, 100)
-        progress.setWindowTitle("カード情報照会中")
+        progress.setWindowTitle(_fromUtf8("カード情報照会中"))
         progress.setCancelButton(None)
         progress.show()
         progress.setValue(0)
@@ -238,23 +241,23 @@ class CheckoutWindow(QtGui.QMainWindow):
             logger.error("args:{0}".format(e.args))
             logger.error("message:{0}".format(e.message))
             logger.error("{0}".format(e))
-            self.ui.status_label.setText("サーバからの応答情報にエラーがありました。({})".format(e.args))
+            self.ui.status_label.setText(_fromUtf8("サーバからの応答情報にエラーがありました。({})".format(e.args)))
             return
 
         if results['status'] == 400 and len(results['errors']) > 0:
             error = results['errors'][0]
             if error['status'] == '501':
-                self.ui.status_label.setText("利用者情報に登録されていません")
+                self.ui.status_label.setText(_fromUtf8("利用者情報に登録されていません"))
             else:
                 logger.error("error. status={} message={}".format(error['status'], error['message']))
-                self.ui.status_label.setText("サーバでエラーが発生しました。({})".format(error['message']))
+                self.ui.status_label.setText(_fromUtf8("サーバでエラーが発生しました。({})".format(error['message'])))
         else:
             result = results['results'][0]
             name = unicode(result['name'])
             user_number = unicode(result['user_number'])
             basket_id = unicode(result['basket_id'])
             session_value = unicode(result['session_value'])
-            self.ui.status_label.setText("カードを読み取りました。")
+            self.ui.status_label.setText(_fromUtf8("カードを読み取りました。"))
 
         self.basket_id = basket_id
         self.session_value = session_value

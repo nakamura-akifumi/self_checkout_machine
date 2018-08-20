@@ -7,6 +7,11 @@ from felica_walker import *
 import settings
 import nfc
 
+try:
+    _fromUtf8 = QtCore.QString.fromUtf8
+except AttributeError:
+    def _fromUtf8(s):
+        return s
 
 class MainWindow(QtGui.QMainWindow):
     def __init__(self,parent=None):
@@ -60,4 +65,4 @@ class MainWindow(QtGui.QMainWindow):
         except IOError:
             logger.warn("Not find felica device (USB)")
             self.ui.lblStatus.setStyleSheet("QLabel { background-color : red; color : blue; }")
-            self.ui.lblStatus.setText(QtCore.QString("IDカードリーダーが見つかりません。"))
+            self.ui.lblStatus.setText(_fromUtf8("IDカードリーダーが見つかりません。"))

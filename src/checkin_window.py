@@ -4,6 +4,11 @@ from ui_checkin_window import Ui_checkin_window
 from felica_walker import *
 import settings
 
+try:
+    _fromUtf8 = QtCore.QString.fromUtf8
+except AttributeError:
+    def _fromUtf8(s):
+        return s
 
 class CheckinWindow(QtGui.QMainWindow):
     def __init__(self,parent=None):
