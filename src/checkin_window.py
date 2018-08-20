@@ -20,7 +20,7 @@ class CheckinWindow(QtGui.QMainWindow):
 
         self.ui.btnCancel.clicked.connect(self.clicked_btnCancel)
         self.ui.btnOk.clicked.connect(self.clicked_btnOk)
-        self.ui.status_label.setText("返却物のバーコードを読み込んでください")
+        self.ui.status_label.setText(_fromUtf8("返却物のバーコードを読み込んでください"))
         self.ui.item_label.setText("")
 
         style_prop_title_bar = settings.app['style']['title_bar']

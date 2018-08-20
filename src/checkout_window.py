@@ -29,7 +29,7 @@ class CheckoutWindow(QtGui.QMainWindow):
         self.ui.btnOK.setStyleSheet("QPushButton { " + style_prop_ok_button + " }")
         self.ui.btnCancel.setStyleSheet("QPushButton { " + style_prop_cancel_button + " }")
 
-        headers = ['書名', '所蔵情報ID', '返却期限']
+        headers = [u'書名', _fromUtf8('所蔵情報ID'), _fromUtf8('返却期限')]
         self.model = MyTableModel(self.table_data, headers, self)
         self.createTable()
 
