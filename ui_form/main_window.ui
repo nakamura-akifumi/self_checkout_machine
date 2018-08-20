@@ -24,6 +24,7 @@
    </property>
    <property name="font">
     <font>
+     <family>TakaoGothic</family>
      <pointsize>40</pointsize>
     </font>
    </property>
@@ -42,6 +43,7 @@
    </property>
    <property name="font">
     <font>
+     <family>TakaoGothic</family>
      <pointsize>40</pointsize>
     </font>
    </property>
@@ -55,11 +57,12 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>48</height>
+     <height>58</height>
     </rect>
    </property>
    <property name="font">
     <font>
+     <family>TakaoGothic</family>
      <pointsize>36</pointsize>
     </font>
    </property>
@@ -81,6 +84,7 @@
    </property>
    <property name="font">
     <font>
+     <family>TakaoPGothic</family>
      <pointsize>28</pointsize>
     </font>
    </property>

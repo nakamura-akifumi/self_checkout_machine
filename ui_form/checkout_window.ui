@@ -30,6 +30,7 @@
    </property>
    <property name="font">
     <font>
+     <family>TakaoGothic</family>
      <pointsize>18</pointsize>
     </font>
    </property>
@@ -45,6 +46,7 @@
    </property>
    <property name="font">
     <font>
+     <family>TakaoGothic</family>
      <pointsize>18</pointsize>
     </font>
    </property>
@@ -60,7 +62,7 @@
    </property>
    <property name="font">
     <font>
-     <family>TakaoGothic</family>
+     <family>TakaoPGothic</family>
      <pointsize>22</pointsize>
     </font>
    </property>
@@ -155,7 +157,7 @@
    </property>
    <property name="font">
     <font>
-     <family>TakaoGothic</family>
+     <family>TakaoPGothic</family>
      <pointsize>18</pointsize>
     </font>
    </property>
@@ -202,7 +204,7 @@
    </property>
    <property name="font">
     <font>
-     <family>TakaoGothic</family>
+     <family>TakaoPGothic</family>
      <pointsize>18</pointsize>
     </font>
    </property>
@@ -666,7 +668,7 @@
    </property>
    <property name="font">
     <font>
-     <family>TakaoGothic</family>
+     <family>TakaoPGothic</family>
      <pointsize>16</pointsize>
     </font>
    </property>
