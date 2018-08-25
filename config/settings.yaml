@@ -4,6 +4,7 @@ run_mode: 'api'
 api:
   access_url: 'http://localhost:8080/id_cards/t'
   cert: '1234567890test'
+  timeout: 15
 slack:
   token: "xoxb-00000000000-XXXXXXXXXXXXXXXXXXXXXXXX" # Your API token
   channel: '#databus_dev'

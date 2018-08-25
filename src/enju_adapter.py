@@ -6,10 +6,10 @@ logger = getLogger(__name__)
 
 
 class EnjuAdapter:
-    def __init__(self, server_url, cert):
+    def __init__(self, server_url, cert, timeout=15):
         self.server_url = server_url
         self.cert = cert
-        self.request_timeout = 5
+        self.request_timeout = timeout
 
     def checkin(self, item_identifier):
         logger.debug("checkin: item_identifier={}".format(item_identifier))
@@ -45,8 +45,6 @@ class EnjuAdapter:
 
         payload = {'event': 'cardid2userbascket', 'tag': unicode(tag_id), 'cert': self.cert}
         r = requests.post(self.server_url, data=payload, timeout=self.request_timeout)
-        print r
-        print r.text
         # TODO: r.status_code == 500 -> throw exception
         return r
 

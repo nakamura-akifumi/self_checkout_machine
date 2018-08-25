@@ -220,10 +220,18 @@ class CheckoutWindow(QtGui.QMainWindow):
         if settings.app['run_mode'] == 'api':
             access_url = settings.app['api']['access_url']
             cert = settings.app['api']['cert']
+            timeout = style_prop_title_bar = settings.app['api']['timeout']
 
-            server_adapter = EnjuAdapter(access_url, cert)
+            server_adapter = EnjuAdapter(access_url, cert, timeout)
             logger.debug("send tag: {}".format(tag_idm))
-            response = server_adapter.cardid2user_with_basket(tag_idm)
+            try:
+                response = server_adapter.cardid2user_with_basket(tag_idm)
+                self.ui.status_label.setText('')
+            except requests.exceptions.ReadTimeout:
+                logger.debug("timeout error")
+                QtGui.QApplication.processEvents()
+                self.ui.status_label.setText(_fromUtf8("サーバからの応答がありませんでした。(Timeout)"))
+                return
         else:
             logger.debug("run mode is [slack]")
 
