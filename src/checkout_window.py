@@ -83,7 +83,7 @@ class CheckoutWindow(QtGui.QMainWindow):
 
         tv.setColumnWidth(0, 340)
         tv.setColumnWidth(1, 200)
-        tv.setColumnWidth(2, 120)
+        tv.setColumnWidth(2, 160)
 
         # set row height
         nrows = len(self.table_data)
@@ -142,6 +142,8 @@ class CheckoutWindow(QtGui.QMainWindow):
                     self.ui.tableView.model().beginInsertRows(QtCore.QModelIndex(), len(self.table_data), 1)
                     self.table_data.append(item)
                     self.ui.tableView.model().endInsertRows()
+
+                    self.ui.status_label.setText("")
 
                     logger.debug("append success")
                 else:
