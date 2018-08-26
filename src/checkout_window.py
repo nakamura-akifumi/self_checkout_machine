@@ -83,7 +83,7 @@ class CheckoutWindow(QtGui.QMainWindow):
 
         tv.setColumnWidth(0, 340)
         tv.setColumnWidth(1, 200)
-        tv.setColumnWidth(2, 160)
+        tv.setColumnWidth(2, 152)
 
         # set row height
         nrows = len(self.table_data)
