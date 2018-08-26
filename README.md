@@ -12,11 +12,14 @@ Raspberry Pi に Felicaリーダー、バーコードリーダ、液晶モニタ
 となります。
 
 開発中です。
+(2018/8/26現在)
 
 ### 外観
 
+![本体外観](docs/raspberrypi.jpeg "本体外観")
+
 - 画像は以下で構成
-    - Raspberry Pi 3
+    - Raspberry Pi 3 Model B
     - ケース
     - micro SD カード (16GB以上)
     - [Sony RC-S380](https://www.sony.co.jp/Products/felica/consumer/products/RC-S380.html)
@@ -25,7 +28,9 @@ Raspberry Pi に Felicaリーダー、バーコードリーダ、液晶モニタ
 
 ### 画面   
 
-(あとで) 
+![メインメニュー](docs/mainmenu.jpg "メインメニュー")
+![貸出画面](docs/checkout.jpg "貸出画面")
+![返却画面](docs/checkin.jpg "返却画面")
 
 ## 動作環境の構築
 
