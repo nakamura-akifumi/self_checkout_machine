@@ -16,7 +16,7 @@ Raspberry Pi に Felicaリーダー、バーコードリーダ、液晶モニタ
 
 ### 外観
 
-![本体外観](docs/raspberrypi.jpeg "本体外観")
+![本体外観](docs/raspberrypi.jpg "本体外観")
 
 - 画像は以下で構成
     - Raspberry Pi 3 Model B
