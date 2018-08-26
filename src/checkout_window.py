@@ -186,9 +186,7 @@ class CheckoutWindow(QtGui.QMainWindow):
         self.ui.profile_label.setText("")
 
     def clicked_btnCancel(self):
-        logger.debug("@1 clicked_btnReturn ")
         self.walker.stop()
-        logger.debug("@3 clicked_btnReturn ")
         self.window().close()
 
     def update_status_init(self):
@@ -211,7 +209,7 @@ class CheckoutWindow(QtGui.QMainWindow):
         progress.setMinimum(0)
         progress.setMaximum(100)
         progress.resize(200, 100)
-        progress.setWindowTitle(_fromUtf8("カード情報照会中"))
+        progress.setWindowTitle(_fromUtf8("wait"))
         progress.setCancelButton(None)
         progress.show()
         progress.setValue(0)
@@ -220,15 +218,15 @@ class CheckoutWindow(QtGui.QMainWindow):
         if settings.app['run_mode'] == 'api':
             access_url = settings.app['api']['access_url']
             cert = settings.app['api']['cert']
-            timeout = style_prop_title_bar = settings.app['api']['timeout']
+            timeout = settings.app['api']['timeout']
 
             server_adapter = EnjuAdapter(access_url, cert, timeout)
             logger.debug("send tag: {}".format(tag_idm))
             try:
                 response = server_adapter.cardid2user_with_basket(tag_idm)
                 self.ui.status_label.setText('')
-            except requests.exceptions.ReadTimeout:
-                logger.debug("timeout error")
+            except (requests.exceptions.ConnectTimeout, requests.exceptions.ReadTimeout) as e:
+                logger.warn("timeout error timeout={}s e={}".format(timeout, e))
                 QtGui.QApplication.processEvents()
                 self.ui.status_label.setText(_fromUtf8("サーバからの応答がありませんでした。(Timeout)"))
                 return
@@ -284,40 +282,3 @@ class CheckoutWindow(QtGui.QMainWindow):
     @QtCore.pyqtSlot()
     def finish_read(self):
         self.walker.wait()
-
-
-class MyTableModel(QtCore.QAbstractTableModel):
-    def __init__(self, datain, headerdata, parent=None, *args):
-        """ datain: a list of lists
-            headerdata: a list of strings
-        """
-        QtCore.QAbstractTableModel.__init__(self, parent, *args)
-        self.arraydata = datain
-        self.headerdata = headerdata
-
-    def rowCount(self, parent):
-        return len(self.arraydata)
-
-    def columnCount(self, parent):
-        return len(self.headerdata)
-
-    def data(self, index, role):
-        if not index.isValid():
-            return QtCore.QVariant()
-        elif role != QtCore.Qt.DisplayRole:
-            return QtCore.QVariant()
-        return QtCore.QVariant(self.arraydata[index.row()][index.column()])
-
-    def headerData(self, col, orientation, role):
-        if orientation == QtCore.Qt.Horizontal and role == QtCore.Qt.DisplayRole:
-            return QtCore.QVariant(self.headerdata[col])
-        return QtCore.QVariant()
-
-    def removeRows(self, position, rows, parent = QtCore.QModelIndex):
-        self.beginRemoveRows(QtCore.QModelIndex(), position, position + rows - 1)
-        for i in range(rows):
-            value = self.arraydata[position]
-            self.arraydata.remove(value)
-
-        self.endRemoveRows()
-
