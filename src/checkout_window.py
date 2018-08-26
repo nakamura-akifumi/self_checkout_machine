@@ -282,3 +282,39 @@ class CheckoutWindow(QtGui.QMainWindow):
     @QtCore.pyqtSlot()
     def finish_read(self):
         self.walker.wait()
+
+
+class MyTableModel(QtCore.QAbstractTableModel):
+    def __init__(self, datain, headerdata, parent=None, *args):
+        """ datain: a list of lists
+            headerdata: a list of strings
+        """
+        QtCore.QAbstractTableModel.__init__(self, parent, *args)
+        self.arraydata = datain
+        self.headerdata = headerdata
+
+    def rowCount(self, parent):
+        return len(self.arraydata)
+
+    def columnCount(self, parent):
+        return len(self.headerdata)
+
+    def data(self, index, role):
+        if not index.isValid():
+            return QtCore.QVariant()
+        elif role != QtCore.Qt.DisplayRole:
+            return QtCore.QVariant()
+        return QtCore.QVariant(self.arraydata[index.row()][index.column()])
+
+    def headerData(self, col, orientation, role):
+        if orientation == QtCore.Qt.Horizontal and role == QtCore.Qt.DisplayRole:
+            return QtCore.QVariant(self.headerdata[col])
+        return QtCore.QVariant()
+
+    def removeRows(self, position, rows, parent = QtCore.QModelIndex):
+        self.beginRemoveRows(QtCore.QModelIndex(), position, position + rows - 1)
+        for i in range(rows):
+            value = self.arraydata[position]
+            self.arraydata.remove(value)
+
+        self.endRemoveRows()
